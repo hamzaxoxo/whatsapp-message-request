@@ -3,12 +3,12 @@ const messageRouter = express.Router();
 const twilio = require("twilio");
 
 const TWILIO_ACCOUNT_SID = "AC36807ccb35d4afb9cb64f6293a97989f";
-const TWILIO_AUTH_TOKEN = "56c2682cbbe007ce6c9c35a0ff171b63";
+const TWILIO_AUTH_TOKEN = "e46390595ae89fb2291617ec577c623f";
 const TWILIO_PHONE_NUMBER = "whatsapp:+14155238886";
-const WHATSAPP_NUMBER = "whatsapp:+923113177279";
+const TWILIO_DETINITION_NUMBER = "whatsapp:+923113177279";
+
 const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
-// Middleware for parsing JSON bodies
 messageRouter.use(express.json());
 
 messageRouter.get("/message", (req, res) => {
@@ -16,17 +16,17 @@ messageRouter.get("/message", (req, res) => {
 });
 
 messageRouter.post("/send-message", (req, res) => {
-  const { body, to } = req.body;
+  const { body } = req.body;
 
   client.messages
     .create({
       body: body,
       from: TWILIO_PHONE_NUMBER,
-      to: to, 
+      to: TWILIO_DETINITION_NUMBER,
     })
     .then((message) => {
       console.log(
-        `WhatsApp message sent from ${TWILIO_PHONE_NUMBER} to ${to}. Message SID: ${message.sid}`
+        `WhatsApp message sent from ${TWILIO_PHONE_NUMBER} to ${TWILIO_DETINITION_NUMBER} Message SID: ${message.sid}`
       );
       res.json({ status: "Message sent successfully", messageId: message.sid });
     })
